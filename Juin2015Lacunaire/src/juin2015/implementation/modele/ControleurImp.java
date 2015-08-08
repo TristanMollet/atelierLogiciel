@@ -14,12 +14,29 @@ import juin2015.architecturemvc.Vue;
  */
 public class ControleurImp extends javax.swing.JPanel implements Vue{
 
-    ModeleImp model;
+    private ModeleImp model;
+    private boolean actif =false;
     /**
      * Creates new form ControleurImp
      */
     public ControleurImp() {
         initComponents();
+        jsNbEmetteur.setMajorTickSpacing(5);
+        jsNbEmetteur.setMinorTickSpacing(1);
+        jsNbEmetteur.setPaintLabels(true);
+        jsNbEmetteur.setPaintTicks(true);
+        jsAlea.setMajorTickSpacing(5);
+        jsAlea.setMinorTickSpacing(1);
+        jsAlea.setPaintLabels(true);
+        jsAlea.setPaintTicks(true);
+        jsDelai.setMajorTickSpacing(5);
+        jsDelai.setMinorTickSpacing(1);
+        jsDelai.setPaintLabels(true);
+        jsDelai.setPaintTicks(true);
+        jsDuree.setMajorTickSpacing(5);
+        jsDuree.setMinorTickSpacing(1);
+        jsDuree.setPaintLabels(true);
+        jsDuree.setPaintTicks(true);
         
     }
 
@@ -32,21 +49,26 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jsDelai = new javax.swing.JSlider();
         jlNbEmetteur = new javax.swing.JLabel();
         jsNbEmetteur = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
         jsDuree = new javax.swing.JSlider();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jsDelai = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
         jsAlea = new javax.swing.JSlider();
-        jLabel2 = new javax.swing.JLabel();
         jbStart = new javax.swing.JButton();
+
+        jsDelai.setMaximum(30);
+        jsDelai.setValue(5);
 
         jlNbEmetteur.setText("Nombre(s) d'émetteur(s):");
 
+        jsNbEmetteur.setMajorTickSpacing(5);
         jsNbEmetteur.setMaximum(30);
+        jsNbEmetteur.setMinimum(5);
+        jsNbEmetteur.setMinorTickSpacing(1);
         jsNbEmetteur.setValue(5);
         jsNbEmetteur.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -55,10 +77,9 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
         jsDuree.setMaximum(30);
         jsDuree.setValue(5);
 
-        jLabel3.setText("Delai minimum, en seconde , entre deux émissions :");
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pour chaque émetteur", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        jsDelai.setMaximum(30);
-        jsDelai.setValue(5);
+        jLabel3.setText("Delai minimum, en seconde , entre deux émissions :");
 
         jLabel4.setText("Mesure de l'aléa :");
 
@@ -71,63 +92,51 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jsAlea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jsDelai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jsAlea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jsDelai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(jsAlea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Pour chaque émetteur");
-
         jbStart.setText("Start");
+        jbStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbStartActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jsDuree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jlNbEmetteur)
-                                    .addGap(73, 73, 73)
-                                    .addComponent(jsNbEmetteur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jLabel2)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jbStart)
-                .addGap(43, 43, 43))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jsDuree, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jlNbEmetteur)
+                            .addGap(73, 73, 73)
+                            .addComponent(jsNbEmetteur, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jbStart)))
+                .addContainerGap(78, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,20 +152,40 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jsDuree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(11, 11, 11)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(34, 34, 34)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbStart)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbStartActionPerformed
+        if(model == null && jbStart.getText() == "Start"){
+            int nbEmetteurs = jsNbEmetteur.getValue();
+            int [] nbEmissions = new int[nbEmetteurs];
+            int[] sommeIntensite = new int[nbEmetteurs];
+            double [] moyenneIntensite = new double[nbEmetteurs];
+            boolean actif = true;
+            int derEmetteur = nbEmetteurs-1; 
+            int nbEmissionTotal =0;
+            double moyenneIntensiteTotal=0;
+            int sommeIntensiteTotal=0;
+            model = new ModeleImp(nbEmetteurs,nbEmissions, sommeIntensite,
+                           moyenneIntensite, actif, derEmetteur, nbEmissionTotal, 
+                           moyenneIntensiteTotal, sommeIntensiteTotal);
+            model.addEmissionEcouteur(this);
+        }
+        actif = !actif;
+        model.changeEtat(actif);
+        
+    }//GEN-LAST:event_jbStartActionPerformed
+    public ModeleImp getModele(){
+        return model;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
@@ -170,6 +199,10 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
 
     @Override
     public void notifieChangement(EtatEmissions etat) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!etat.isActif()){
+            jbStart.setText("Start");
+        }else{
+            jbStart.setText("Stop");
+        }
     }
 }
