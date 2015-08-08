@@ -15,7 +15,6 @@ import juin2015.architecturemvc.Vue;
 public class ControleurImp extends javax.swing.JPanel implements Vue{
 
     private ModeleImp model;
-    private boolean actif =false;
     /**
      * Creates new form ControleurImp
      */
@@ -33,10 +32,10 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
         jsDelai.setMinorTickSpacing(1);
         jsDelai.setPaintLabels(true);
         jsDelai.setPaintTicks(true);
-        jsDuree.setMajorTickSpacing(5);
-        jsDuree.setMinorTickSpacing(1);
-        jsDuree.setPaintLabels(true);
-        jsDuree.setPaintTicks(true);
+        jsDure.setMajorTickSpacing(5);
+        jsDure.setMinorTickSpacing(1);
+        jsDure.setPaintLabels(true);
+        jsDure.setPaintTicks(true);
         
     }
 
@@ -58,6 +57,7 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jsAlea = new javax.swing.JSlider();
+        jsDure = new javax.swing.JSlider();
         jbStart = new javax.swing.JButton();
 
         jsDelai.setMaximum(30);
@@ -86,6 +86,11 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
         jsAlea.setMaximum(10);
         jsAlea.setValue(5);
 
+        jsDure.setMajorTickSpacing(5);
+        jsDure.setMaximum(30);
+        jsDure.setMinorTickSpacing(1);
+        jsDure.setValue(15);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -96,14 +101,18 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jsAlea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jsAlea, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                    .addComponent(jsDure, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel3)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(jsDure, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
@@ -166,7 +175,7 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
             int [] nbEmissions = new int[nbEmetteurs];
             int[] sommeIntensite = new int[nbEmetteurs];
             double [] moyenneIntensite = new double[nbEmetteurs];
-            boolean actif = true;
+            boolean actif = false;
             int derEmetteur = nbEmetteurs-1; 
             int nbEmissionTotal =0;
             double moyenneIntensiteTotal=0;
@@ -176,8 +185,14 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
                            moyenneIntensiteTotal, sommeIntensiteTotal);
             model.addEmissionEcouteur(this);
         }
-        actif = !actif;
-        model.changeEtat(actif);
+        if(model.isActif()){
+            model.startEmissions(model.getEtat().getDerEmetteur(), 
+                    jsDelai.getValue(), jsAlea.getValue(), jsDure.getValue());
+        }else{
+            model.stopEmissions();
+        }
+        
+        model.changeEtat(model.isActif());
         
     }//GEN-LAST:event_jbStartActionPerformed
     public ModeleImp getModele(){
@@ -193,6 +208,7 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
     private javax.swing.JLabel jlNbEmetteur;
     private javax.swing.JSlider jsAlea;
     private javax.swing.JSlider jsDelai;
+    private javax.swing.JSlider jsDure;
     private javax.swing.JSlider jsDuree;
     private javax.swing.JSlider jsNbEmetteur;
     // End of variables declaration//GEN-END:variables
