@@ -18,7 +18,7 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
     /**
      * Creates new form ControleurImp
      */
-    public ControleurImp() {
+    public ControleurImp(ModeleImp modele) {
         initComponents();
         jsNbEmetteur.setMajorTickSpacing(5);
         jsNbEmetteur.setMinorTickSpacing(1);
@@ -36,7 +36,7 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
         jsDure.setMinorTickSpacing(1);
         jsDure.setPaintLabels(true);
         jsDure.setPaintTicks(true);
-        
+        model = modele;
     }
 
     /**
@@ -137,7 +137,7 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jsDuree, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jsDuree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jlNbEmetteur)
@@ -170,13 +170,15 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbStartActionPerformed
-        if(model == null && jbStart.getText() == "Start"){
+        System.out.println("Dans jbStartActionPerformed");
+        if(/*model == null && */jbStart.getText() == "Start"){
+            System.out.println("Je construit le model");
             int nbEmetteurs = jsNbEmetteur.getValue();
             int [] nbEmissions = new int[nbEmetteurs];
             int[] sommeIntensite = new int[nbEmetteurs];
             double [] moyenneIntensite = new double[nbEmetteurs];
             boolean actif = false;
-            int derEmetteur = nbEmetteurs-1; 
+            int derEmetteur = 0; 
             int nbEmissionTotal =0;
             double moyenneIntensiteTotal=0;
             int sommeIntensiteTotal=0;
@@ -185,14 +187,22 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
                            moyenneIntensiteTotal, sommeIntensiteTotal);
             model.addEmissionEcouteur(this);
         }
-        if(model.isActif()){
-            model.startEmissions(model.getEtat().getDerEmetteur(), 
+        if(!model.isActif()){
+            System.out.println("Je lance startEmissions");
+            System.out.println("nbEmetteur : "+ model.getEtat().getNbEmetteurs());
+            System.out.println("delai : "+jsDelai.getValue() + "  alea : " + jsAlea.getValue() 
+            + "jsDuree : " + jsDure.getValue());
+            model.startEmissions(model.getEtat().getNbEmetteurs(), 
                     jsDelai.getValue(), jsAlea.getValue(), jsDure.getValue());
+             System.out.println("Je change d'etat");
+             //model.changeEtat(true);
         }else{
+            System.out.println("Je stopEmissions");
             model.stopEmissions();
+             System.out.println("Je change d'etat");
+            //model.changeEtat(false);
         }
-        
-        model.changeEtat(model.isActif());
+       
         
     }//GEN-LAST:event_jbStartActionPerformed
     public ModeleImp getModele(){
@@ -214,11 +224,12 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void notifieChangement(EtatEmissions etat) {
+    public synchronized void notifieChangement(EtatEmissions etat) {
         if(!etat.isActif()){
             jbStart.setText("Start");
         }else{
             jbStart.setText("Stop");
         }
+        validate();
     }
 }
