@@ -5,12 +5,17 @@
  */
 package juin2015.implementation.modele;
 
+import java.awt.Component;
+import java.awt.GridLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.JWindow;
 import juin2015.architecturemvc.EtatEmissions;
 import juin2015.architecturemvc.Vue;
+import juin2015.db.ParametresDB;
+import juin2015.dto.ParametresDto;
 
 /**
  *
@@ -27,8 +32,11 @@ public class Fenetre extends javax.swing.JFrame implements Vue{
         
         rbControleur.setSelected(false);
         jCheckBoxMenuItem1.setSelected(false);
+        vueEmet.setSelected(false);
         model=new ModeleImp();
         model.addEmissionEcouteur(this);
+        vueEmetteur = new VueEmetteur(model);
+        vueSynthese = new VueSynthese(model);
     }
 
     /**
@@ -40,11 +48,27 @@ public class Fenetre extends javax.swing.JFrame implements Vue{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         rbControleur = new javax.swing.JRadioButtonMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        vueEmet = new javax.swing.JCheckBoxMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jmrecherche = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
+
+        jMenu3.setText("jMenu3");
+
+        jMenuItem3.setText("jMenuItem3");
+
+        jMenu4.setText("jMenu4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,7 +96,36 @@ public class Fenetre extends javax.swing.JFrame implements Vue{
         });
         jMenu1.add(jCheckBoxMenuItem1);
 
+        vueEmet.setSelected(true);
+        vueEmet.setText("Emetteurs");
+        vueEmet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vueEmetActionPerformed(evt);
+            }
+        });
+        jMenu1.add(vueEmet);
+
         jMenuBar1.add(jMenu1);
+
+        jMenu5.setText("Sauvegarde");
+
+        jMenuItem2.setText("Sauvegarde");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem2);
+
+        jmrecherche.setText("Recherche");
+        jmrecherche.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmrechercheActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jmrecherche);
+
+        jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
 
@@ -89,7 +142,7 @@ public class Fenetre extends javax.swing.JFrame implements Vue{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void rbControleurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbControleurActionPerformed
         if(evt.getSource()== rbControleur){
             if(rbControleur.isSelected()){
@@ -116,55 +169,84 @@ public class Fenetre extends javax.swing.JFrame implements Vue{
     }//GEN-LAST:event_rbControleurActionPerformed
 
     private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
-        /*if(vueSynthese == null){
+       if(vueSynthese == null){
         vueSynthese = new VueSynthese(model);
         }
+        /*
         if(jCheckBoxMenuItem1.isSelected()){
         vueSynthese.setVisible(true);
         }else{
         vueSynthese.setVisible(false);
         }*/
         JFrame vueSyn = new JFrame("Vue de Synthèse");
-        vueSyn.getContentPane().add(new VueSynthese(model));
-        vueSyn.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        vueSyn.getContentPane().add(vueSynthese);
+        vueSyn.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         vueSyn.setVisible(true);
         vueSyn.pack();
         
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
+    private void vueEmetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vueEmetActionPerformed
+        if(vueEmetteur == null){
+            vueEmetteur = new VueEmetteur(model);
+        }
+        JFrame vueEmet = new JFrame("Emetteur");
+        vueEmet.getContentPane().add(vueEmetteur);
+        vueEmet.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        vueEmet.setVisible(true);
+        vueEmet.pack();
+    }//GEN-LAST:event_vueEmetActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        //sauvegarde.setVisible(true);
+        String UserReponse = (String) JOptionPane.showInputDialog(this,
+                "Nom de la sauvegarde : ","Sauvegarde", JOptionPane.PLAIN_MESSAGE);
+       EtatEmissions et = model.getEtat();
+       ParametresDto paramDto = new ParametresDto(UserReponse, 
+               et.getNbEmetteurs(), contrleur.getDuree(),
+               contrleur.getDelai(), contrleur.getAlea());
+       ParametresDB.addParametre(paramDto);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jmrechercheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmrechercheActionPerformed
+       jdRech.setVisible(true);
+    }//GEN-LAST:event_jmrechercheActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-         /* Create and display the form */
+        
+        /* Create and display the form*/ 
         java.awt.EventQueue.invokeLater(() -> {
             new Fenetre().setVisible(true);
         });
-        /*JSlider slider = new JSlider(0, 30, 15);
-        slider.setMajorTickSpacing(5);
-        slider.setMinorTickSpacing(1);
-        slider.setPaintTicks(true);
-        slider.setPaintLabels(true);
-        JFrame fen = new JFrame();
-        fen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fen.add(slider);
-        fen.setSize(500, 500);
-        fen.setVisible(true);*/
+        
     }
-
+private JDRechParametres jdRech;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jmrecherche;
     private javax.swing.JRadioButtonMenuItem rbControleur;
+    private javax.swing.JCheckBoxMenuItem vueEmet;
     // End of variables declaration//GEN-END:variables
 private ControleurImp contrleur;
 private VueSynthese vueSynthese;
+private VueEmetteur vueEmetteur;
 
     @Override
     public void notifieChangement(EtatEmissions etat) {
         validate();
+        System.out.println("nbEmetteur dans fenetre"+etat.getNbEmetteurs());
     }
 
 }

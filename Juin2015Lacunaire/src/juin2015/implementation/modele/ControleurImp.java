@@ -171,6 +171,9 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
 
     private void jbStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbStartActionPerformed
         System.out.println("Dans jbStartActionPerformed");
+        duree = jsDure.getValue();
+        alea = jsAlea.getValue();
+        delai = jsDelai.getValue();
         if(/*model == null && */jbStart.getText() == "Start"){
             System.out.println("Je construit le model");
             int nbEmetteurs = jsNbEmetteur.getValue();
@@ -222,7 +225,18 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
     private javax.swing.JSlider jsDuree;
     private javax.swing.JSlider jsNbEmetteur;
     // End of variables declaration//GEN-END:variables
-
+private int duree;
+private int alea;
+private int delai;
+public int getDelai(){
+    return delai;
+}
+public int getDuree(){
+    return duree;
+}
+public int getAlea(){
+    return alea;
+}
     @Override
     public synchronized void notifieChangement(EtatEmissions etat) {
         if(!etat.isActif()){
