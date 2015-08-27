@@ -43,7 +43,7 @@ public class Fenetre extends javax.swing.JFrame implements Vue{
         try {
             jdRech = new JDRechParametres(this, rootPaneCheckingEnabled, "Recherche",
                     new JPCritSelParametres(), new MaJTParametres());
-        } catch (MaJTableInitialisationException ex) {
+        } catch (be.esi.alg2.ebiblio.gui.outils.MaJTableInitialisationException ex) {
             Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -176,7 +176,9 @@ public class Fenetre extends javax.swing.JFrame implements Vue{
         }
         
     }//GEN-LAST:event_rbControleurActionPerformed
-
+public ControleurImp getControleur(){
+    return contrleur;
+}
     private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
        if(vueSynthese == null){
         vueSynthese = new VueSynthese(model);
@@ -212,7 +214,7 @@ public class Fenetre extends javax.swing.JFrame implements Vue{
                 "Nom de la sauvegarde : ","Sauvegarde", JOptionPane.PLAIN_MESSAGE);
        EtatEmissions et = model.getEtat();
        ParametresDto paramDto = new ParametresDto(UserReponse, 
-               et.getNbEmetteurs(), contrleur.getDuree(),
+               contrleur.getNbEmetteurs(), contrleur.getDuree(),
                contrleur.getDelai(), contrleur.getAlea());
        ParametresDB.addParametre(paramDto);
     }//GEN-LAST:event_jMenuItem2ActionPerformed

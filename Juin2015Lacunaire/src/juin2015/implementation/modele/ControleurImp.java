@@ -7,6 +7,7 @@ package juin2015.implementation.modele;
 
 import juin2015.architecturemvc.EtatEmissions;
 import juin2015.architecturemvc.Vue;
+import juin2015.dto.ParametresDto;
 
 /**
  *
@@ -174,6 +175,7 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
         duree = jsDure.getValue();
         alea = jsAlea.getValue();
         delai = jsDelai.getValue();
+        nbEmetteurs = jsNbEmetteur.getValue();
         if(/*model == null && */jbStart.getText() == "Start"){
             System.out.println("Je construit le model");
             int nbEmetteurs = jsNbEmetteur.getValue();
@@ -189,6 +191,7 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
                            moyenneIntensite, actif, derEmetteur, nbEmissionTotal, 
                            moyenneIntensiteTotal, sommeIntensiteTotal);
             model.addEmissionEcouteur(this);
+           // model.notifyEmissionEcouteur();
         }
         if(!model.isActif()){
             System.out.println("Je lance startEmissions");
@@ -197,6 +200,7 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
             + "jsDuree : " + jsDure.getValue());
             model.startEmissions(model.getEtat().getNbEmetteurs(), 
                     jsDelai.getValue(), jsAlea.getValue(), jsDure.getValue());
+            
              System.out.println("Je change d'etat");
              //model.changeEtat(true);
         }else{
@@ -228,6 +232,7 @@ public class ControleurImp extends javax.swing.JPanel implements Vue{
 private int duree;
 private int alea;
 private int delai;
+private int nbEmetteurs;
 public int getDelai(){
     return delai;
 }
@@ -236,6 +241,17 @@ public int getDuree(){
 }
 public int getAlea(){
     return alea;
+}
+public int getNbEmetteurs(){
+    return nbEmetteurs;
+}
+
+public void setParametres(ParametresDto dt){
+    jsAlea.setValue(dt.getAlea());
+    jsDure.setValue(dt.getDuree());
+    jsNbEmetteur.setValue(dt.getNbEmetteurs());
+    jsDelai.setValue(dt.getDelai());
+    validate();
 }
     @Override
     public synchronized void notifieChangement(EtatEmissions etat) {

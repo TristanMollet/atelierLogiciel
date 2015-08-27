@@ -31,7 +31,7 @@ public class DBManager {
     public static Connection getConnection() throws EmissionDbException {
         try{
         if (connection == null) {
-                connection = DriverManager.getConnection("jdbc:derby://localhost:1527/Emissions", "app", "app");
+                connection = DriverManager.getConnection("jdbc:derby://localhost:1527/Parametres", "app", "app");
         }
         connection.setAutoCommit(true);
             } catch (SQLException ex) {

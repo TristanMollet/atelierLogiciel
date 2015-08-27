@@ -11,7 +11,8 @@ package juin2015.architecturemvc;
  */
 public interface Vue {    
     /**
-     * méthode appelée par le modèle à chaque fois que son état change: nouvelle impulsion, activation ou passivation de la simulation
+     * méthode appelée par le modèle à chaque fois que son état change:
+     * nouvelle impulsion, activation ou passivation de la simulation
      * @param etat 
      */
     void  notifieChangement(EtatEmissions etat);

@@ -5,6 +5,10 @@
  */
 package juin2015.architecturemvc;
 
+import java.util.ArrayList;
+import java.util.List;
+import juin2015.architecturemvc.Vue;
+
 
 
 /**
@@ -12,6 +16,11 @@ package juin2015.architecturemvc;
  * Méthodes à implémenter par tout objet se présentant comme modèle aux vues des simulations d'émissions
  */
 public interface ModelePourVues {
+
+    /**
+     *Liste des vue abonne.
+     */
+    List<Vue> listeVue = new ArrayList<Vue>();
     /**
      * fournit l'eat de la dernière simulation qu'elle soit active ou inactive
      * @return 
@@ -29,5 +38,7 @@ public interface ModelePourVues {
      * @param vue 
      */
     public void removeEmissionEcouteur(Vue vue);
+    
+    public void notifyEmissionEcouteur();
     
 }
