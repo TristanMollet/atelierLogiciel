@@ -5,8 +5,11 @@
  */
 package juin2015.implementation.modele;
 
+import be.esi.alg2.gui.outils.MaJTableInitialisationException;
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -29,7 +32,7 @@ public class Fenetre extends javax.swing.JFrame implements Vue{
      */
     public Fenetre() {
         initComponents();
-        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         rbControleur.setSelected(false);
         jCheckBoxMenuItem1.setSelected(false);
         vueEmet.setSelected(false);
@@ -37,6 +40,12 @@ public class Fenetre extends javax.swing.JFrame implements Vue{
         model.addEmissionEcouteur(this);
         vueEmetteur = new VueEmetteur(model);
         vueSynthese = new VueSynthese(model);
+        try {
+            jdRech = new JDRechParametres(this, rootPaneCheckingEnabled, "Recherche",
+                    new JPCritSelParametres(), new MaJTParametres());
+        } catch (MaJTableInitialisationException ex) {
+            Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
